@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<title>Тест</title>
+<style>
+body {
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+    padding: 20px;
+}
+.question {
+    background: #1e293b;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+button {
+    padding: 10px;
+    background: green;
+    color: white;
+    border: none;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Тест</h2>
+
+<form id="quiz">
+
+<div class="question">
+<p>1. alert() не істейді?</p>
+<label><input type="radio" name="q1" value="A"> енгізу сұрайды</label><br>
+<label><input type="radio" name="q1" value="B"> хабарлама көрсетеді</label><br>
+<label><input type="radio" name="q1" value="C"> массив</label>
+</div>
+
+<button type="button" onclick="check()">Тексеру</button>
+
+</form>
+
+<h3 id="result"></h3>
+
+<script>
+function check() {
+    let score = 0;
+    if(document.querySelector('input[name="q1"]:checked')?.value == "B") score++;
+    document.getElementById("result").innerText = "Дұрыс: " + score;
+}
+</script>
+
+</body>
+</html>
