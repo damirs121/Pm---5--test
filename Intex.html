@@ -2,54 +2,142 @@
 <html lang="kk">
 <head>
 <meta charset="UTF-8">
-<title>Тест</title>
+<title>PM Тест</title>
+
 <style>
 body {
     font-family: Arial;
-    background: #0f172a;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
     color: white;
     padding: 20px;
 }
+
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
 .question {
     background: #1e293b;
     padding: 15px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     border-radius: 10px;
 }
+
 button {
-    padding: 10px;
-    background: green;
-    color: white;
+    background: #22c55e;
     border: none;
+    padding: 12px 20px;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #16a34a;
+}
+
+.result {
+    margin-top: 20px;
+    font-size: 20px;
+}
+.wrong {
+    color: #f87171;
+}
+.correct {
+    color: #4ade80;
 }
 </style>
 </head>
 
 <body>
 
-<h2>Тест</h2>
+<div class="container">
+<h2>📚 PM Тест (Дайындық)</h2>
 
-<form id="quiz">
+<form id="quiz"></form>
 
-<div class="question">
-<p>1. alert() не істейді?</p>
-<label><input type="radio" name="q1" value="A"> енгізу сұрайды</label><br>
-<label><input type="radio" name="q1" value="B"> хабарлама көрсетеді</label><br>
-<label><input type="radio" name="q1" value="C"> массив</label>
+<button onclick="check()">Тексеру</button>
+
+<div class="result" id="result"></div>
+<div id="details"></div>
+
 </div>
 
-<button type="button" onclick="check()">Тексеру</button>
-
-</form>
-
-<h3 id="result"></h3>
-
 <script>
+
+// 🔥 СҰРАҚТАР (осы жерге бәрін қосамыз)
+const questions = [
+{
+q: "window объектісінің хабарлама көрсететін әдісі?",
+a: ["prompt()", "splice()", "confirm()", "shift()", "alert()"],
+correct: 4
+},
+{
+q: "Енгізу өрісі бар терезе:",
+a: ["prompt()", "splice()", "confirm()", "shift()", "alert()"],
+correct: 0
+},
+{
+q: "typeof не қайтарады?",
+a: ["мән", "тип", "индекс"],
+correct: 1
+},
+{
+q: "Массив ұзындығы:",
+a: ["push()", "length", "concat()"],
+correct: 1
+}
+];
+
+// 🔥 СҰРАҚТАРДЫ ШЫҒАРУ
+const quiz = document.getElementById("quiz");
+
+questions.forEach((item, index) => {
+    let html = `<div class="question"><p>${index+1}. ${item.q}</p>`;
+    
+    item.a.forEach((ans, i) => {
+        html += `
+        <label>
+        <input type="radio" name="q${index}" value="${i}">
+        ${ans}
+        </label><br>`;
+    });
+
+    html += "</div>";
+    quiz.innerHTML += html;
+});
+
+// 🔥 ТЕКСЕРУ
 function check() {
     let score = 0;
-    if(document.querySelector('input[name="q1"]:checked')?.value == "B") score++;
-    document.getElementById("result").innerText = "Дұрыс: " + score;
+    let details = "";
+
+    questions.forEach((item, index) => {
+        let selected = document.querySelector(`input[name="q${index}"]:checked`);
+
+        if(selected && Number(selected.value) === item.correct) {
+            score++;
+        } else {
+            details += `<p class="wrong">❌ ${index+1}-сұрақ қате</p>`;
+        }
+    });
+
+    let percent = Math.round((score / questions.length) * 100);
+
+    let grade = "";
+    if(percent >= 90) grade = "5";
+    else if(percent >= 75) grade = "4";
+    else if(percent >= 50) grade = "3";
+    else grade = "2";
+
+    document.getElementById("result").innerHTML =
+        `Нәтиже: ${score}/${questions.length} (${percent}%)<br>Баға: ${grade}`;
+
+    document.getElementById("details").innerHTML = details;
 }
+
 </script>
 
 </body>
